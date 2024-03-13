@@ -17,19 +17,19 @@ class Ambulatorio(models.Model):
 
 
 class Atende(models.Model):
-    medico = models.OneToOneField('Medico', models.DO_NOTHING, db_column='medico',
-                                  primary_key=True)  # The composite primary key (medico, convenio) found, that is not supported. The first column is selected.
+    medico = models.ForeignKey('Medico', models.DO_NOTHING, db_column='medico',
+                               primary_key=True)  # The composite primary key (medico, convenio) found, that is not supported. The first column is selected.
     convenio = models.ForeignKey('Convenio', models.DO_NOTHING, db_column='convenio')
 
     class Meta:
-        managed = False
         db_table = 'atende'
         unique_together = (('medico', 'convenio'),)
         verbose_name = 'Médico Convênio'
-        verbose_name_plural = 'Médeico Convênios'
+        verbose_name_plural = 'Médico Convênios'
 
     def __str__(self):
-        return f'Dr. {self.medico.nome} atende convênio {self.convenio.nome}'
+        return (f'Dr. {self.medico.nome} atende '
+                f'convênio {self.convenio.nome}')
 
 
 class Consulta(models.Model):
@@ -47,7 +47,8 @@ class Consulta(models.Model):
         verbose_name_plural = 'Consultas'
 
     def __str__(self):
-        return f'Consulta {self.paciente.nome} com Dr. {self.medico.nome}'
+        return (f'Consulta {self.paciente.nome} '
+                f'com Dr. {self.medico.nome}')
 
 
 class Convenio(models.Model):
@@ -73,6 +74,7 @@ class Medico(models.Model):
     idade = models.IntegerField(blank=True, null=True)
     salario = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True)
     ambulatorio = models.ForeignKey(Ambulatorio, models.DO_NOTHING, db_column='idamb', blank=True, null=True)
+    convenios = models.ManyToManyField('Convenio', through='Atende', verbose_name='convenios_medico')
 
     class Meta:
         managed = False
@@ -117,4 +119,5 @@ class Possui(models.Model):
         verbose_name_plural = 'Paciente x Convênios'
 
     def __str__(self):
-        return f'{self.paciente.nome}, convênio {self.convenio.nome}'
+        return (f'{self.paciente.nome}, '
+                f'convênio {self.convenio.nome}')

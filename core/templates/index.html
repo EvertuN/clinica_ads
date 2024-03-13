@@ -1,10 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>Minha Clínica</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
 </head>
 <body>
-$END$
+    <main class="container">
+        <header>
+            <h1>Minha Clínica</h1>
+        </header>
+    </main>
+    <article>
+        <a href="{% url 'relat_pacientes' %}" role="button" class="secondary">Relatório Pacientes</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="{% url 'pacientes_convenio' %}" role="button" class="secondary">Relatório por convênio</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="{% url 'relat_pacientes' %}" role="button" class="secondary">Relatório por consultas e mês</a>
+        &nbsp;&nbsp;&nbsp;
+        <a href="{% url 'pacientes_convenio' %}" role="button" class="secondary">Pacientes atendidos por especialidade e por mês</a>
+    </article>
+
 </body>
 </html>
